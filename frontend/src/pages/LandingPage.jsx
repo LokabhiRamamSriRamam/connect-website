@@ -6,7 +6,7 @@ import Features from "../components/Features";
 import FinalPoster from "../components/FinalPoster";
 import Numbers1 from "../components/numbers";
 import Numbers2 from "../components/Numbers.2";
-import FAQ from "../components/FAQ.JSX";
+import FAQ from "../components/FAQ.jsx";
 import Footer from "../components/Footer";
 import IntegrationSection from "../components/IntegrationSection";
 
