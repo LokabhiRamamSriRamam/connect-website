@@ -1,5 +1,5 @@
 import GlassSection from "./GlassSection";
-import { industryConfig } from "./industryConfig";
+import { industryConfig } from "./IndustryConfig";
 
 const IndustryChatbotSection = ({ industry, Chatbot }) => {
   const { chatbotPrompt } = industryConfig[industry];

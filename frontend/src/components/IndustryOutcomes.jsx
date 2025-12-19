@@ -1,5 +1,5 @@
 import GlassSection from "./GlassSection";
-import { industryConfig } from "./industryConfig";
+import { industryConfig } from "./IndustryConfig";
 
 const IndustryOutcomes = ({ industry }) => {
   const { outcomes } = industryConfig[industry];
