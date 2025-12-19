@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import GSAPWorldMap from "../components/GSAPworldmap";
+import GSAPWorldMap from "../components/GSAPWorldMap";
 import Industry from "../components/Industry";
 import BrandsSection from "../components/BrandsSection";
 import Features from "../components/Features";
