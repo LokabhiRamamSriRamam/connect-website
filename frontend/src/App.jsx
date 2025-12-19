@@ -1,6 +1,6 @@
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import GSAPWorldMap from "./components/GSAPworldmap";
+import GSAPWorldMap from "./components/GSAPWorldMap";
 import LandingPage from "./pages/LandingPage";
 import Industry from "./components/Industry";
 import TopNav from "./components/TopNav";
