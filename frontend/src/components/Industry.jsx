@@ -67,8 +67,14 @@ const questions = [
   "Is Connect easy for my team to learn and start using quickly?",
 ];
 
+const MAINTENANCE_MESSAGE = `Stark is leveling up ⚡
+Our Connect team is performing a quick maintenance upgrade.
+Stark will return shortly with improved insights to serve your business better.`;
+
 const Industry = () => {
   const businessRef = useRef(null);
+
+  const [error, setError] = useState(false);
 
   const scrollRef = useRef(null); // Ref for the scrollable area
   const [index, setIndex] = useState(0);
@@ -108,6 +114,10 @@ const Industry = () => {
     if (!userPrompt.trim()) return;
 
     setLoading(true);
+    setError(false);
+    setDisplayedResponse("");
+    setFullResponse("");
+
     setResponse("");
 
     const systemPrompt = INDUSTRY_CONTEXT[industry] || "";
@@ -135,7 +145,10 @@ const Industry = () => {
 
       setFullResponse(data.response); // Trigger the typewriter effect
     } catch (err) {
-      setFullResponse(`Error: ${err.message}`);
+      console.error(err);
+
+      setError(true);
+      setFullResponse(MAINTENANCE_MESSAGE);
     } finally {
       setLoading(false);
     }
@@ -232,7 +245,10 @@ const Industry = () => {
           {/* --- LEFT COLUMN: CHAT UI --- */}
           {/* Added h-[550px] for fixed height and w-full lg:w-1/2 for equal width columns */}
           {/* --- LEFT COLUMN: CHAT UI --- */}
-          <div id="chatbot-section" className="w-full lg:w-1/2 flex justify-center lg:justify-end">
+          <div
+            id="chatbot-section"
+            className="w-full lg:w-1/2 flex justify-center lg:justify-end"
+          >
             <div className="relative w-full max-w-xl h-[550px] rounded-xl shadow-2xl overflow-hidden">
               {/* Moving Gradient Background */}
               <div className="absolute inset-0 animate-gradient bg-gradient-to-r from-purple-500 via-pink-500 to-blue-400 opacity-30 blur-3xl"></div>
@@ -293,8 +309,17 @@ const Industry = () => {
                           Stark AI
                         </span>
                       </div>
-                      <div className="bg-primary/5 border border-primary/10 rounded-2xl p-4 text-sm leading-relaxed text-gray-800 dark:text-gray-200">
-                        {displayedResponse}
+                      <div
+                        className={`rounded-2xl p-4 text-sm leading-relaxed ${
+                          error
+                            ? "bg-yellow-50 border border-yellow-200 text-yellow-800 dark:bg-yellow-900/20 dark:border-yellow-500/30 dark:text-yellow-200"
+                            : "bg-primary/5 border border-primary/10 text-gray-800 dark:text-gray-200"
+                        }`}
+                      >
+                        <p className="whitespace-pre-line text-center">
+                          {displayedResponse}
+                        </p>
+
                         {loading && !displayedResponse && (
                           <span className="animate-pulse">Analyzing...</span>
                         )}
