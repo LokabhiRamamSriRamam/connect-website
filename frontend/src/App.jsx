@@ -271,7 +271,13 @@ function App() {
   return (
     <>
       <RouterProvider router={router} />
-      <h1>Jai Sri Ganesh</h1>
+           <h1 style={{
+        position: 'absolute', 
+        top: 0, 
+        left: 0, 
+        zIndex: -1, 
+        color: 'transparent'
+      }}>Jai Sri Ganesh</h1>
     </>
   );
 }
