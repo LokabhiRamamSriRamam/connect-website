@@ -54,32 +54,45 @@ export const industryConfig = {
       "Consistent service during rush hours",
     ],
   },
-   dentist: {
-    title: "Smart Dental Clinic Operations",
-    image: "/images/dentist.jpg",
-    overview:
-      "Dental clinics face unpredictable appointments, emergency walk-ins, and patient management challenges. AI helps clinics operate smoothly while providing a superior patient experience.",
-    problems: [
-      "Overlapping patient appointments",
-      "Staff idle during downtime",
-      "Manual scheduling inefficiencies",
-      "Inconsistent patient follow-ups",
-    ],
-    solutionSteps: [
-      "Real-time appointment management",
-      "AI-driven staff allocation",
-      "Integration with patient management systems",
-    ],
-    chatbotPrompt:
-      "Ask about scheduling, patient management, or optimizing clinic workflow.",
-    outcomes: [
-      "Better patient flow",
-      "Reduced wait times",
-      "Optimized staff usage",
-      "Consistent patient experience",
-    ],
-  },
-    realestate: {
+dentist: {
+  title: "AI-Powered Dental Ecosystem",
+  image: "/images/dentist.jpg",
+  overview:
+    "Connect is the first 'Operating System for Dentistry' that combines a WhatsApp-first Management System with a specialized AI Workforce. While our core system handles your clinic's pulse, Picasso, Sherlock, and Stark handle your growth, intelligence, and patient relationships.",
+  
+  problems: [
+    "Fragmented patient communication leading to missed appointment opportunities",
+    "Creative burnout from trying to manage Instagram, customer engagement, and patient education",
+    "Dark data: Having years of patient history but no way to query it for business insights",
+    "High front-desk turnover and administrative fatigue from repetitive booking tasks",
+    "Low treatment acceptance due to lack of consistent patient education follow-ups",
+    "Inability to track the ROI of marketing spend versus actual clinical production",
+  ],
+
+  solutionSteps: [
+    "WhatsApp-Centric PMS: Turn your clinic's WhatsApp into a powerful command center for staff.",
+    "Picasso AI (The Creative): Auto-generate high-retention Dental Reels, clinical 'Before & After' posts, and patient newsletters.",
+    "Sherlock AI (The Analyst): A voice/chat interface to query your clinic's financial health, outstanding dues, and patient demographics.",
+    "Stark AI (The Concierge): An autonomous agent that qualifies leads on WhatsApp, schedules appointments, and sends post-op care instructions.",
+  ],
+
+  chatbotPrompt: `You are Stark, the patient-facing AI agent for Connect. 
+    Context:
+    - Core System: WhatsApp-integrated Dental Management.
+    - Picasso: The Creative Agent (reels, newsletters, social media).
+    - Sherlock: The BI Agent (finances, patient history, clinical audits).
+    - Stark (You): The Concierge (bookings, follow-ups, 24/7 support).
+    Explain how we eliminate 'no-shows' and how our AI agents work together to increase clinic revenue.`,
+
+  outcomes: [
+    "Zero-leaks: Every WhatsApp inquiry is captured and responded to in seconds by Stark.",
+    "Authority Building: Picasso ensures your clinic is a local thought-leader with consistent social content.",
+    "Total Transparency: Sherlock gives you 'Boardroom-level' insights into your profit, loss, and patient retention.",
+    "90% Reduction in Booking Friction: Patients book directly through WhatsApp without waiting for a callback.",
+    "Enhanced Patient Loyalty: Automated, personalized post-op follow-ups and anniversary greetings.",
+    "Optimized Chair Time: AI-driven scheduling reduces gaps and maximizes daily production.",
+  ],
+},    realestate: {
     title: "Next-Gen Real Estate Management",
     image: "/images/realestate.jpg",
     overview:

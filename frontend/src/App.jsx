@@ -21,6 +21,8 @@ import Education from "./pages/Industry/Education";
 import Pricing from "./pages/Pricing";
 import IntegrationSection from "./components/IntegrationSection";
 import Footer from "./components/Footer";
+import Careers from "./pages/Careers";
+import GetInTouch from "./pages/get-in-touch";
 
 const router = createBrowserRouter([
   {
@@ -210,6 +212,46 @@ const router = createBrowserRouter([
         <div>
         <TopNav />
           <Pricing />
+          
+          <div className = "bg-yellow-400">
+            <IntegrationSection />
+           <FinalPoster />
+           </div>
+           <div className="bg-yellow-200">
+             <Footer />
+           </div>
+         
+        </div>
+      </div>
+    ),
+  },
+          {
+    path: "/careers",
+    element: (
+      <div>
+        <div>
+        <TopNav />
+          <Careers />
+          
+          <div className = "bg-yellow-400">
+            <IntegrationSection />
+           <FinalPoster />
+           </div>
+           <div className="bg-yellow-200">
+             <Footer />
+           </div>
+         
+        </div>
+      </div>
+    ),
+  },
+         {
+    path: "/get-in-touch",
+    element: (
+      <div>
+        <div>
+        <TopNav />
+          <GetInTouch />
           
           <div className = "bg-yellow-400">
             <IntegrationSection />

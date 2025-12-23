@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { MAP_MASK } from "./map-data.js";
 import { TextPlugin } from "gsap/TextPlugin"; // <-- 1. Import TextPlugin
@@ -348,7 +349,7 @@ const GSAPWorldMap = () => {
             <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-600 dark:text-slate-300">
               Imagine a clone who loves doing the tasks you don’t. That’s us.
             </p>
-            <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 items-center justify-center gap-4 max-w-lg mx-auto">
+            <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 items-center justify-center gap-4 max-w-lg mx-auto pointer-events-auto">
               <a
                 className="
     flex items-center justify-center gap-2
@@ -369,8 +370,8 @@ const GSAPWorldMap = () => {
                   arrow_right_alt
                 </span>
               </a>
-
-              <a
+              <Link
+                to="/get-in-touch"
                 className="
     flex items-center justify-center
     w-full sm:w-auto lg:w-[220px]
@@ -385,30 +386,41 @@ const GSAPWorldMap = () => {
     transition-all duration-300
     hover:scale-105
   "
-                href="#"
               >
                 <span>Get Connect</span>
-              </a>
+              </Link>
             </div>
-
-            <div className="mt-12 max-w-2xl mx-auto">
-              <div className="relative group">
+            <div
+              onClick={() => {
+                const chatbotSection =
+                  document.getElementById("chatbot-section");
+                if (chatbotSection) {
+                  chatbotSection.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                  });
+                }
+              }}
+              className="mt-12 max-w-2xl mx-auto pointer-events-auto cursor-pointer group"
+            >
+              <div className="relative">
                 {/* Gradient Glow */}
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl blur opacity-30 group-hover:opacity-70 transition duration-1000"></div>
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl blur opacity-30 group-hover:opacity-100 transition duration-1000"></div>
 
-                {/* Search Input and Button */}
+                {/* Search Input and Button Container */}
                 <div className="relative flex items-center bg-slate-900/80 dark:bg-slate-900/90 backdrop-blur-sm border border-slate-700/50 p-1.5 rounded-xl">
                   <input
-                    className="w-full bg-transparent text-slate-200 placeholder:text-slate-500 py-3 pl-4 pr-36 focus:ring-0 border-0 outline-none text-base"
+                    readOnly // Since clicking the bar redirects, we make the input read-only
+                    className="w-full bg-transparent text-slate-200 placeholder:text-slate-500 py-3 pl-4 pr-36 focus:ring-0 border-0 outline-none text-base cursor-pointer"
                     placeholder="see how connect can help your business"
                     type="text"
                   />
-                  <button className="absolute inset-y-1.5 right-1.5 flex items-center justify-center gap-2 bg-gradient-to-br from-blue-500 to-purple-600 text-white font-semibold py-2 px-4 rounded-lg text-sm hover:from-blue-600 hover:to-purple-700 transition-all">
+                  <div className="absolute inset-y-1.5 right-1.5 flex items-center justify-center gap-2 bg-gradient-to-br from-blue-500 to-purple-600 text-white font-semibold py-2 px-4 rounded-lg text-sm group-hover:from-blue-600 group-hover:to-purple-700 transition-all">
                     <span className="material-symbols-outlined text-base">
                       auto_awesome
                     </span>
                     <span>ask sherlock</span>
-                  </button>
+                  </div>
                 </div>
               </div>
             </div>

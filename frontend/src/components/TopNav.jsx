@@ -97,7 +97,6 @@ const TopNav = ({ variant = "glass", theme = "dark" }) => {
         ${variant === "solid" ? "shadow-xl" : "bg-opacity-40"}
       `}
     >
-
       {/* MOBILE */}
       <div className="flex lg:hidden items-center justify-between w-full relative">
         {/* Hamburger Button */}
@@ -123,12 +122,17 @@ const TopNav = ({ variant = "glass", theme = "dark" }) => {
         </button>
 
         {/* Logo */}
-        <img src={CONNECT_LOGO_SRC} alt="Connect" className="h-7" />
+        <a href="/">
+          <img src={CONNECT_LOGO_SRC} alt="Connect" className="h-7" />
+        </a>
 
         {/* Book Demo */}
-        <button className="bg-purple-600 text-white text-xs px-4 py-2 rounded-full">
+        <a
+          href="/get-in-touch"
+          className="bg-purple-600 text-white text-xs px-4 py-2 rounded-full"
+        >
           Book Demo
-        </button>
+        </a>
 
         {/* MOBILE MENU */}
         {mobileOpen && (
@@ -167,10 +171,15 @@ const TopNav = ({ variant = "glass", theme = "dark" }) => {
                     ))}
                   </div>
                 )}
-
                 {link !== "Industries" && link !== "Products" && (
                   <a
-                    href="#"
+                    href={
+                      link === "Careers"
+                        ? "/careers"
+                        : link === "Pricing"
+                        ? "/pricing"
+                        : "#"
+                    }
                     className="block px-3 py-2 rounded-lg hover:bg-gray-800 text-white"
                   >
                     {link}
@@ -184,7 +193,9 @@ const TopNav = ({ variant = "glass", theme = "dark" }) => {
 
       {/* DESKTOP */}
       <div className="hidden lg:flex items-center justify-between w-full">
-        <img src={CONNECT_LOGO_SRC} alt="Connect" className="h-8 invert" />
+        <a href="/">
+          <img src={CONNECT_LOGO_SRC} alt="Connect" className="h-8 invert" />
+        </a>
 
         <div className="flex items-center space-x-6">
           {desktopLinks.map((link) => (
@@ -247,7 +258,16 @@ const TopNav = ({ variant = "glass", theme = "dark" }) => {
               )}
 
               {link !== "Industries" && link !== "Products" && (
-                <a href="#" className="text-sm font-medium">
+                <a
+                  href={
+                    link === "Careers"
+                      ? "/careers"
+                      : link === "Pricing"
+                      ? "/pricing"
+                      : "#"
+                  }
+                  className="text-sm font-medium"
+                >
                   {link}
                 </a>
               )}
@@ -255,9 +275,12 @@ const TopNav = ({ variant = "glass", theme = "dark" }) => {
           ))}
         </div>
 
-        <button className="bg-purple-600 text-white text-sm px-6 py-2 rounded-full">
+        <a
+          href="/get-in-touch"
+          className="bg-purple-600 text-white text-sm px-6 py-2 rounded-full"
+        >
           Book Demo
-        </button>
+        </a>
       </div>
     </nav>
   );

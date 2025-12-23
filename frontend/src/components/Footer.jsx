@@ -33,7 +33,7 @@ const Footer = ({ enableGradient = false }) => {
         <div className="space-y-2 text-sm text-gray-700">
           <p>
             <span className="font-semibold text-gray-900">Phone:</span>{" "}
-            9967392920
+            +91 9967392920
           </p>
           <p>
             <span className="font-semibold text-gray-900">Email:</span>{" "}
@@ -41,7 +41,7 @@ const Footer = ({ enableGradient = false }) => {
           </p>
           <p>
             <span className="font-semibold text-gray-900">Support:</span>{" "}
-            info@connectgenai.in
+            support@connectgenai.in
           </p>
 
           <div className="flex items-center gap-4">

@@ -7,7 +7,6 @@ import IndustryOutcomes from "../../components/IndustryOutcomes";
 import FinalPoster from "../../components/FinalPoster";
 import Footer from "../../components/Footer";
 
-
 const Salon = () => {
   return (
     <>
@@ -18,6 +17,7 @@ const Salon = () => {
         theme="salon"
       />
       <IndustryOverview industry="salon" />
+
       <IndustryProblems industry="salon" />
       <IndustrySolution industry="salon" />
       <IndustryOutcomes industry="salon" />

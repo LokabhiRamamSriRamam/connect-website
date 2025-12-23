@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const FinalPoster = () => {
   const headingRef = useRef(null); // GSAP animation for the main heading on mount
@@ -78,10 +79,13 @@ const FinalPoster = () => {
                        {" "}
             <div className="mt-8">
                            {" "}
-              <button className="bg-purple-600 text-white hover:bg-purple-700 transition-colors duration-200 px-8 py-3.5 rounded-full font-semibold text-sm md:text-base shadow-lg inline-flex items-center">
+              <Link
+                to="/get-in-touch"
+                className="bg-purple-600 text-white hover:bg-purple-700 transition-colors duration-200 px-8 py-3.5 rounded-full font-semibold text-sm md:text-base shadow-lg inline-flex items-center"
+              >
                 Talk to sales
                 <ArrowRight className="w-5 h-5 ml-2" />
-              </button>
+              </Link>
                          {" "}
             </div>
                      {" "}

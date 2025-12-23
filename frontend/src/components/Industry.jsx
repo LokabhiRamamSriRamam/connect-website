@@ -2,6 +2,47 @@ import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 // import mindmapImg from "../assets/mindmap.png"; // Assuming you have this, otherwise using /mindmap.png as placeholder
 
+const INDUSTRY_CONTEXT = {
+  Healthcare: `
+You are Stark, an AI business advisor for healthcare providers.
+Connect helps healthcare businesses with:
+- Appointment scheduling
+- Patient CRM
+- Automated reminders via WhatsApp
+- Billing, invoicing, and reports
+- Staff management and analytics
+
+Answer clearly, practically, and in simple language.
+`,
+
+  "Salon and Beauty": `
+You are Stark, an AI growth and operations assistant for salons and beauty businesses.
+Connect helps salons with:
+- Online bookings
+- Stylist scheduling
+- WhatsApp reminders and promotions
+- Billing and POS
+- Inventory tracking
+- Customer loyalty and CRM
+
+Be friendly, business-focused, and actionable.
+`,
+
+  "Dental Clinics": `
+You are Stark, an AI operations and growth advisor for dental clinics.
+Connect helps dental clinics manage:
+- Patient appointments
+- Treatment tracking
+- Automated follow-ups
+- Billing and reports
+- Staff scheduling
+
+Keep responses professional and trust-oriented.
+`,
+
+  // add more industries later
+};
+
 const businesses = [
   "Spa",
   "Salon & Beauty",
@@ -28,8 +69,77 @@ const questions = [
 
 const Industry = () => {
   const businessRef = useRef(null);
+
+  const scrollRef = useRef(null); // Ref for the scrollable area
   const [index, setIndex] = useState(0);
   const [currentQuestion, setCurrentQuestion] = useState(0);
+
+  const [industry, setIndustry] = useState("Healthcare");
+  const [userPrompt, setUserPrompt] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [response, setResponse] = useState("");
+
+  // States for the streaming effect
+  const [fullResponse, setFullResponse] = useState("");
+  const [displayedResponse, setDisplayedResponse] = useState("");
+
+  // Auto-scroll to bottom when text changes
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [displayedResponse, loading]);
+
+  // Typewriter / Streaming Effect
+  useEffect(() => {
+    if (fullResponse) {
+      let i = 0;
+      setDisplayedResponse(""); // Clear previous
+      const interval = setInterval(() => {
+        setDisplayedResponse((prev) => prev + fullResponse.charAt(i));
+        i++;
+        if (i >= fullResponse.length) clearInterval(interval);
+      }, 15); // Adjust speed here (ms per character)
+      return () => clearInterval(interval);
+    }
+  }, [fullResponse]);
+
+  const handleAsk = async () => {
+    if (!userPrompt.trim()) return;
+
+    setLoading(true);
+    setResponse("");
+
+    const systemPrompt = INDUSTRY_CONTEXT[industry] || "";
+    const finalPrompt = `${systemPrompt}\n\nUser question:\n${userPrompt}`;
+
+    console.log("--- Frontend Debug ---");
+    console.log(
+      "Target URL:",
+      `${import.meta.env.VITE_API_URL}/api/gemini/chat`
+    );
+    console.log("Sending Prompt:", finalPrompt);
+
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/gemini/chat`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt: finalPrompt }),
+        }
+      );
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+
+      setFullResponse(data.response); // Trigger the typewriter effect
+    } catch (err) {
+      setFullResponse(`Error: ${err.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Rotate questions
   useEffect(() => {
@@ -61,6 +171,12 @@ const Industry = () => {
   return (
     <>
       <style>{`
+
+
+.custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 10px; }
+        .animate-gradient { background-size: 200% 200%; animation: gradientShift 15s ease infinite; }
+        @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
   .smooth-font {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -100,7 +216,6 @@ const Industry = () => {
 
       {/* --- MAIN WRAPPER --- */}
       <div className="bg-transparent w-full py-12 flex flex-col font-display smooth-font items-center">
-        
         {/* --- 1. COMMON HEADING (Moved outside the columns) --- */}
         <div className="w-full max-w-6xl px-6 lg:px-8 mb-12 text-center">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold tracking-tight text-gray-800">
@@ -114,18 +229,21 @@ const Industry = () => {
 
         {/* --- 2. SIDE-BY-SIDE CONTENT CONTAINER --- */}
         <div className="w-full max-w-7xl px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12">
-          
           {/* --- LEFT COLUMN: CHAT UI --- */}
           {/* Added h-[550px] for fixed height and w-full lg:w-1/2 for equal width columns */}
-          <div className="w-full lg:w-1/2 flex justify-center lg:justify-end">
-             {/* Set explicit height here to match image container below */}
+          {/* --- LEFT COLUMN: CHAT UI --- */}
+          <div id="chatbot-section" className="w-full lg:w-1/2 flex justify-center lg:justify-end">
             <div className="relative w-full max-w-xl h-[550px] rounded-xl shadow-2xl overflow-hidden">
               {/* Moving Gradient Background */}
               <div className="absolute inset-0 animate-gradient bg-gradient-to-r from-purple-500 via-pink-500 to-blue-400 opacity-30 blur-3xl"></div>
 
-              <div className="absolute inset-0 bg-surface-light dark:bg-surface-dark/60 border border-subtle-light dark:border-subtle-dark/50 backdrop-blur-lg rounded-xl z-10 p-6 flex flex-col justify-between">
-                {/* Top Section */}
-                <div>
+              <div className="absolute inset-0 bg-surface-light dark:bg-surface-dark/60 border border-subtle-light dark:border-subtle-dark/50 backdrop-blur-lg rounded-xl z-10 p-6 flex flex-col">
+                {/* 1. WRAPPER FOR SCROLLABLE CONTENT */}
+                {/* flex-1 makes this take up all available space; overflow-y-auto enables the scrollbar */}
+                <div
+                  ref={scrollRef}
+                  className="flex-1 overflow-y-auto custom-scrollbar pr-2"
+                >
                   {/* Instruction Line */}
                   <div className="text-center text-text-secondary-light dark:text-text-secondary-dark mb-6 z-20 relative">
                     <p className="text-sm sm:text-base font-medium">
@@ -136,15 +254,14 @@ const Industry = () => {
 
                   {/* Dropdown */}
                   <div className="w-full mx-auto mb-6 relative z-20">
-                    <select className="w-full bg-surface-light/70 dark:bg-surface-dark/50 border border-subtle-light dark:border-subtle-dark/50 text-text-primary-light dark:text-text-primary-dark rounded-lg p-3 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer">
-                      <option>Healthcare</option>
-                      <option>Salon and Beauty</option>
-                      <option>Dental Clinics</option>
-                      <option>Real Estate</option>
-                      <option>Education</option>
-                      <option>Restaurant</option>
-                      <option>Ecommerce</option>
-                      <option>Finance</option>
+                    <select
+                      value={industry}
+                      onChange={(e) => setIndustry(e.target.value)}
+                      className="w-full bg-surface-light/70 dark:bg-surface-dark/50 border border-subtle-light dark:border-subtle-dark/50 text-text-primary-light dark:text-text-primary-dark rounded-lg p-3 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer"
+                    >
+                      {Object.keys(INDUSTRY_CONTEXT).map((key) => (
+                        <option key={key}>{key}</option>
+                      ))}
                     </select>
                   </div>
 
@@ -155,27 +272,62 @@ const Industry = () => {
                         lightbulb
                       </span>
                       <div className="flex-1 flex items-center h-full">
-                        <p key={currentQuestion} className="text-sm sm:text-base font-medium text-text-primary-light dark:text-text-primary-dark italic animate-fadeIn">
-                           “{questions[currentQuestion]}”
+                        <p
+                          key={currentQuestion}
+                          className="text-sm sm:text-base font-medium text-text-primary-light dark:text-text-primary-dark italic animate-fadeIn"
+                        >
+                          “{questions[currentQuestion]}”
                         </p>
                       </div>
                     </div>
                   </div>
+
+                  {/* AI Response Display (Inside the scroll area) */}
+                  {(displayedResponse || loading) && (
+                    <div className="flex flex-col space-y-2 pb-4">
+                      <div className="flex items-center space-x-2 text-primary">
+                        <span className="material-symbols-outlined text-sm">
+                          auto_awesome
+                        </span>
+                        <span className="text-xs font-bold uppercase tracking-wider">
+                          Stark AI
+                        </span>
+                      </div>
+                      <div className="bg-primary/5 border border-primary/10 rounded-2xl p-4 text-sm leading-relaxed text-gray-800 dark:text-gray-200">
+                        {displayedResponse}
+                        {loading && !displayedResponse && (
+                          <span className="animate-pulse">Analyzing...</span>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
-                {/* Input Area (Bottom) */}
-                <div className="w-full bg-surface-light/70 dark:bg-surface-dark/50 p-3 rounded-xl border border-subtle-light dark:border-subtle-dark/50 backdrop-blur-lg flex items-center space-x-3 relative z-20 mt-4">
+                {/* 2. YOUR ORIGINAL INPUT AREA (Outside the scrollable div, so it stays fixed at bottom) */}
+                <div className="w-full bg-surface-light/70 dark:bg-surface-dark/50 p-3 rounded-xl border border-subtle-light dark:border-subtle-dark/50 backdrop-blur-lg flex items-center space-x-3 relative z-20 mt-4 shrink-0">
                   <span className="material-symbols-outlined text-primary ml-2">
                     auto_awesome
                   </span>
                   <textarea
+                    value={userPrompt}
+                    onChange={(e) => setUserPrompt(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !e.shiftKey) {
+                        e.preventDefault();
+                        handleAsk();
+                      }
+                    }}
                     className="flex-1 bg-transparent border-none focus:ring-0 resize-none text-text-primary-light dark:text-text-primary-dark placeholder:text-text-secondary-light dark:placeholder:text-text-secondary-dark text-base font-light py-2 focus:outline-none"
                     placeholder="Ask anything about your business..."
                     rows={1}
                   />
-                  <button className="w-10 h-10 flex items-center justify-center bg-primary rounded-lg hover:opacity-90 transition-opacity">
+                  <button
+                    onClick={handleAsk}
+                    disabled={loading}
+                    className="w-10 h-10 flex items-center justify-center bg-primary rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
+                  >
                     <span className="material-symbols-outlined text-black">
-                      arrow_upward
+                      {loading ? "hourglass_top" : "arrow_upward"}
                     </span>
                   </button>
                 </div>
@@ -187,14 +339,14 @@ const Industry = () => {
           {/* Added h-[550px] to match the chat UI height precisely */}
           <div className="w-full lg:w-1/2 flex justify-center lg:justify-start">
             <div className="w-full max-w-xl h-[550px] flex items-center justify-center p-4 rounded-xl relative">
-               {/* Optional: Add a subtle background or shadow to the image container to match the chat UI box feel */}
-               {/* <div className="absolute inset-0 bg-white/30 backdrop-blur-md rounded-xl shadow-xl z-0"></div> */}
-               
-              <img 
-                src="/mindmap.png" 
-                alt="MindMap Integration" 
+              {/* Optional: Add a subtle background or shadow to the image container to match the chat UI box feel */}
+              {/* <div className="absolute inset-0 bg-white/30 backdrop-blur-md rounded-xl shadow-xl z-0"></div> */}
+
+              <img
+                src="/mindmap.png"
+                alt="MindMap Integration"
                 // object-contain ensures the image fits within the 550px height without stretching
-                className="w-full h-full object-contain relative z-10 drop-shadow-xl" 
+                className="w-full h-full object-contain relative z-10 drop-shadow-xl"
               />
             </div>
           </div>
