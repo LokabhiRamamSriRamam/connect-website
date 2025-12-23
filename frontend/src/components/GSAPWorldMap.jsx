@@ -410,11 +410,14 @@ const GSAPWorldMap = () => {
                 {/* Search Input and Button Container */}
                 <div className="relative flex items-center bg-slate-900/80 dark:bg-slate-900/90 backdrop-blur-sm border border-slate-700/50 p-1.5 rounded-xl">
                   <input
-                    readOnly // Since clicking the bar redirects, we make the input read-only
-                    className="w-full bg-transparent text-slate-200 placeholder:text-slate-500 py-3 pl-4 pr-36 focus:ring-0 border-0 outline-none text-base cursor-pointer"
+                    readOnly
+                    className="w-full bg-transparent text-slate-200 
+             placeholder:text-transparent md:placeholder:text-slate-500
+             py-3 pl-4 pr-36 focus:ring-0 border-0 outline-none text-base cursor-pointer"
                     placeholder="see how connect can help your business"
                     type="text"
                   />
+
                   <div className="absolute inset-y-1.5 right-1.5 flex items-center justify-center gap-2 bg-gradient-to-br from-blue-500 to-purple-600 text-white font-semibold py-2 px-4 rounded-lg text-sm group-hover:from-blue-600 group-hover:to-purple-700 transition-all">
                     <span className="material-symbols-outlined text-base">
                       auto_awesome
